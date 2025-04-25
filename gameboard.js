@@ -1,3 +1,5 @@
+import { Ship } from "./ship.js";
+
 export class Gameboard {
   constructor() {
     this.board = this.#createBoard();
@@ -14,5 +16,21 @@ export class Gameboard {
     }
 
     return board;
+  }
+
+  placeShip(ship, start, direction) {
+    let [row, col] = start;
+    for (let i = 0; i < ship.length; i++) {
+      switch (direction) {
+        case "up":
+          this.board[row--][col] = ship;
+        case "down":
+          this.board[row++][col] = ship;
+        case "left":
+          this.board[row][col--] = ship;
+        case "right":
+          this.board[row][col++] = ship;
+      }
+    }
   }
 }
