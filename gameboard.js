@@ -1,9 +1,9 @@
 export class Gameboard {
   constructor() {
-    this.board = this.createBoard();
+    this.board = this.#createBoard();
   }
 
-  createBoard() {
+  #createBoard() {
     const board = [];
     for (let row = 0; row < 10; row++) {
       const rowArr = [];
