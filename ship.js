@@ -1,6 +1,10 @@
 export class Ship {
   constructor(length) {
-    this.length = length;
+    if (length < 2 || length > 5) {
+      throw new Error("Must be between 2-5 length.");
+    } else {
+      this.length = length;
+    }
     this.hits = 0;
     this.sunk = false;
   }
