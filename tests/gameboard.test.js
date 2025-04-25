@@ -10,6 +10,15 @@ test("Gameboard creates a 10x10 grid", () => {
   });
 });
 
+test("places ship out of bounds and throws error", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  const start = [0, 0];
+  expect(() => {
+    gameboard.placeShip(ship, start, "left");
+  }).toThrow();
+});
+
 test("places a 2 length ship on [0,0] and [0,1]", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(2);
