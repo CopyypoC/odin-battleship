@@ -50,6 +50,11 @@ export class Gameboard {
 
   receiveAttack(coord) {
     const [row, col] = coord;
-    this.board[row][col].hit();
+    if (this.board[row][col] instanceof Ship) {
+      this.board[row][col].hit();
+      this.board[row][col] = "hit";
+    } else {
+      this.board[row][col] = null;
+    }
   }
 }

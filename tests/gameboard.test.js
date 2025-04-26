@@ -51,7 +51,7 @@ describe("valid ship placements", () => {
   ];
 
   test.each(cases)(
-    "places ship $direction from $start",
+    "places ship length $length $direction from $start",
     ({ start, length, direction, endPos }) => {
       const gameboard = new Gameboard();
       const ship = new Ship(length);
@@ -106,20 +106,37 @@ describe("receiveAttack method", () => {
   const ship = new Ship(2);
   gameboard.placeShip(ship, [0, 0], "right");
 
-  const cases = [
+  const hitCountCases = [
     {
+      ship: ship,
+      coord: [1, 0],
+      hits: 0,
+    },
+    {
+      ship: ship,
       coord: [0, 0],
       hits: 1,
     },
+  ];
+
+  const locationCases = [
     {
       coord: [1, 0],
-      hits: null,
+      shot: null,
+    },
+    {
+      coord: [0, 0],
+      shot: "hit",
     },
   ];
 
-  test.each(cases)("$hits hits for $coord", ({ coord, hits }) => {
-    const [row, col] = coord;
+  test.each(hitCountCases)("$hits hits for $coord", ({ ship, coord, hits }) => {
     gameboard.receiveAttack(coord);
-    expect(gameboard.board[row][col].hits).toBe(hits);
+    expect(ship.hits).toBe(hits);
+  });
+
+  test.each(locationCases)("shot $shot for $coord", ({ coord, shot }) => {
+    const [row, col] = coord;
+    expect(gameboard.board[row][col]).toBe(shot);
   });
 });
