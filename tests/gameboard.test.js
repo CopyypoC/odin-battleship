@@ -1,12 +1,13 @@
 import { Gameboard } from "../gameboard.js";
-import { Ship } from "../ship.js";
 
-test("Gameboard creates a 10x10 grid", () => {
-  const gameboard = new Gameboard();
+describe("Gameboard creation", () => {
+  test("Gameboard creates a 10x10 grid", () => {
+    const gameboard = new Gameboard();
 
-  expect(gameboard.board.length).toBe(10);
-  gameboard.board.forEach((row) => {
-    expect(row.length).toBe(10);
+    expect(gameboard.board.length).toBe(10);
+    gameboard.board.forEach((row) => {
+      expect(row.length).toBe(10);
+    });
   });
 });
 
@@ -14,7 +15,6 @@ describe("valid ship placements", () => {
   const cases = [
     {
       start: [0, 0],
-      length: 2,
       direction: "right",
       endPos: [
         [0, 0],
@@ -23,7 +23,6 @@ describe("valid ship placements", () => {
     },
     {
       start: [0, 1],
-      length: 2,
       direction: "left",
       endPos: [
         [0, 1],
@@ -32,7 +31,6 @@ describe("valid ship placements", () => {
     },
     {
       start: [1, 0],
-      length: 2,
       direction: "up",
       endPos: [
         [1, 0],
@@ -41,7 +39,6 @@ describe("valid ship placements", () => {
     },
     {
       start: [0, 0],
-      length: 2,
       direction: "down",
       endPos: [
         [0, 0],
@@ -52,9 +49,10 @@ describe("valid ship placements", () => {
 
   test.each(cases)(
     "places ship length $length $direction from $start",
-    ({ start, length, direction, endPos }) => {
+    ({ start, direction, endPos }) => {
       const gameboard = new Gameboard();
-      const ship = new Ship(length);
+      const ships = gameboard.getShips();
+      const ship = ships[0];
       gameboard.placeShip(ship, start, direction);
 
       for (const [row, col] of endPos) {
@@ -68,31 +66,28 @@ describe("invalid ship placements", () => {
   const cases = [
     {
       start: [0, 0],
-      length: 2,
       direction: "left",
     },
     {
       start: [0, 0],
-      length: 2,
       direction: "up",
     },
     {
       start: [9, 0],
-      length: 2,
       direction: "down",
     },
     {
       start: [0, 9],
-      length: 2,
       direction: "right",
     },
   ];
 
   test.each(cases)(
     "throw error for placing ship $direction from $start",
-    ({ start, length, direction }) => {
+    ({ start, direction }) => {
       const gameboard = new Gameboard();
-      const ship = new Ship(length);
+      const ships = gameboard.getShips();
+      const ship = ships[0];
 
       expect(() => {
         gameboard.placeShip(ship, start, direction);
@@ -103,7 +98,9 @@ describe("invalid ship placements", () => {
 
 describe("receiveAttack method", () => {
   const gameboard = new Gameboard();
-  const ship = new Ship(2);
+  const ships = gameboard.getShips();
+  const ship = ships[0];
+
   gameboard.placeShip(ship, [0, 0], "right");
 
   const hitCountCases = [
@@ -143,16 +140,31 @@ describe("receiveAttack method", () => {
 
 describe("allShipsSunk method", () => {
   const gameboard = new Gameboard();
-  const ship = new Ship(2);
-  gameboard.placeShip(ship, [0, 0], "right");
-  gameboard.receiveAttack([0, 0]);
+  const ships = gameboard.getShips();
 
-  test("false for 1 hit on ship of length 2", () => {
+  for (let i = 0; i < ships.length; i++) {
+    gameboard.placeShip(ships[i], [i, 0], "right");
+  }
+
+  test("false for 0 hits on ships", () => {
     expect(gameboard.allShipsSunk()).toBe(false);
   });
 
-  test("true for 2 hits on ship of length 2", () => {
-    gameboard.receiveAttack([0, 1]);
+  test("true for all ships sunk", () => {
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        gameboard.receiveAttack([row, col]);
+      }
+    }
+
     expect(gameboard.allShipsSunk()).toBe(true);
+  });
+});
+
+describe("create ships", () => {
+  const gameboard = new Gameboard();
+  const ships = gameboard.getShips();
+  test("5 ships max", () => {
+    expect(ships.length).toBe(5);
   });
 });

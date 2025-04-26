@@ -3,8 +3,9 @@ import { Ship } from "./ship.js";
 export class Gameboard {
   constructor() {
     this.board = this.#createBoard();
-    this.ships = [];
   }
+
+  #ships = this.#createShips();
 
   #createBoard() {
     const board = [];
@@ -19,6 +20,20 @@ export class Gameboard {
     return board;
   }
 
+  #createShips() {
+    const arr = [];
+    arr.push(new Ship(2));
+    arr.push(new Ship(3));
+    arr.push(new Ship(3));
+    arr.push(new Ship(4));
+    arr.push(new Ship(5));
+    return arr;
+  }
+
+  getShips() {
+    return this.#ships;
+  }
+
   #outOfBounds(row, col) {
     if (row < 0 || row > 9 || col < 0 || col > 9) {
       return true;
@@ -26,6 +41,7 @@ export class Gameboard {
     return false;
   }
 
+  // Ship object, start [x, y], direction "left"
   placeShip(ship, start, direction) {
     let [row, col] = start;
 
@@ -49,9 +65,9 @@ export class Gameboard {
           break;
       }
     }
-    this.ships.push(ship);
   }
 
+  // coord [x, y]
   receiveAttack(coord) {
     const [row, col] = coord;
     if (this.board[row][col] instanceof Ship) {
@@ -63,7 +79,7 @@ export class Gameboard {
   }
 
   allShipsSunk() {
-    for (const ship of this.ships) {
+    for (const ship of this.#ships) {
       if (ship.isSunk() === false) return false;
     }
     return true;
