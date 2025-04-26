@@ -89,7 +89,7 @@ describe("invalid ship placements", () => {
   ];
 
   test.each(cases)(
-    "place ship $direction from $start",
+    "throw error for placing ship $direction from $start",
     ({ start, length, direction }) => {
       const gameboard = new Gameboard();
       const ship = new Ship(length);
