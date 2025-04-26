@@ -10,19 +10,93 @@ test("Gameboard creates a 10x10 grid", () => {
   });
 });
 
-test("places ship out of bounds and throws error", () => {
-  const gameboard = new Gameboard();
-  const ship = new Ship(2);
-  const start = [0, 0];
-  expect(() => {
-    gameboard.placeShip(ship, start, "left");
-  }).toThrow();
+describe("valid ship placements", () => {
+  const cases = [
+    {
+      start: [0, 0],
+      length: 2,
+      direction: "right",
+      endPos: [
+        [0, 0],
+        [0, 1],
+      ],
+    },
+    {
+      start: [0, 1],
+      length: 2,
+      direction: "left",
+      endPos: [
+        [0, 1],
+        [0, 0],
+      ],
+    },
+    {
+      start: [1, 0],
+      length: 2,
+      direction: "up",
+      endPos: [
+        [1, 0],
+        [0, 0],
+      ],
+    },
+    {
+      start: [0, 0],
+      length: 2,
+      direction: "down",
+      endPos: [
+        [0, 0],
+        [1, 0],
+      ],
+    },
+  ];
+
+  test.each(cases)(
+    "places ship $direction from $start",
+    ({ start, length, direction, endPos }) => {
+      const gameboard = new Gameboard();
+      const ship = new Ship(length);
+      gameboard.placeShip(ship, start, direction);
+
+      for (const [row, col] of endPos) {
+        expect(gameboard.board[row][col]).toBe(ship);
+      }
+    }
+  );
 });
 
-test("places a 2 length ship on [0,0] and [0,1]", () => {
-  const gameboard = new Gameboard();
-  const ship = new Ship(2);
-  const start = [0, 0];
-  gameboard.placeShip(ship, start, "right");
-  expect(gameboard.board[0][0] && gameboard.board[0][1]).toBe(ship);
+describe("invalid ship placements", () => {
+  const cases = [
+    {
+      start: [0, 0],
+      length: 2,
+      direction: "left",
+    },
+    {
+      start: [0, 0],
+      length: 2,
+      direction: "up",
+    },
+    {
+      start: [9, 0],
+      length: 2,
+      direction: "down",
+    },
+    {
+      start: [0, 9],
+      length: 2,
+      direction: "right",
+    },
+  ];
+
+  test.each(cases)(
+    "place ship $direction from $start",
+    ({ start, length, direction }) => {
+      const gameboard = new Gameboard();
+      const ship = new Ship(length);
+
+      expect(() => {
+        gameboard.placeShip(ship, start, direction);
+      }).toThrow();
+    }
+  );
 });
