@@ -48,5 +48,8 @@ export class Gameboard {
     }
   }
 
-  receiveAttack() {}
+  receiveAttack(coord) {
+    const [row, col] = coord;
+    this.board[row][col].hit();
+  }
 }

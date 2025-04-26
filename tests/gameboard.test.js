@@ -100,3 +100,26 @@ describe("invalid ship placements", () => {
     }
   );
 });
+
+describe("receiveAttack method", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0], "right");
+
+  const cases = [
+    {
+      coord: [0, 0],
+      hits: 1,
+    },
+    {
+      coord: [1, 0],
+      hits: null,
+    },
+  ];
+
+  test.each(cases)("$hits hits for $coord", ({ coord, hits }) => {
+    const [row, col] = coord;
+    gameboard.receiveAttack(coord);
+    expect(gameboard.board[row][col].hits).toBe(hits);
+  });
+});
