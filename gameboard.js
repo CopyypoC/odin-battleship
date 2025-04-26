@@ -50,6 +50,10 @@ export class Gameboard {
         throw new Error("Ships placed out of bounds, 0-9 limit");
       }
 
+      if (this.board[row][col] instanceof Ship) {
+        throw new Error("Ships cannot overlap");
+      }
+
       switch (direction) {
         case "up":
           this.board[row--][col] = ship;

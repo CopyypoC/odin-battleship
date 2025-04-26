@@ -94,6 +94,16 @@ describe("invalid ship placements", () => {
       }).toThrow();
     }
   );
+
+  test("throw error for overlapping ships", () => {
+    const gameboard = new Gameboard();
+    const ships = gameboard.getShips();
+    gameboard.placeShip(ships[0], [0, 0], "right");
+
+    expect(() => {
+      gameboard.placeShip(ships[1], [1, 0], "up");
+    }).toThrow();
+  });
 });
 
 describe("receiveAttack method", () => {
