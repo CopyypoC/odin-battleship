@@ -135,8 +135,24 @@ describe("receiveAttack method", () => {
     expect(ship.hits).toBe(hits);
   });
 
-  test.each(locationCases)("shot $shot for $coord", ({ coord, shot }) => {
+  test.each(locationCases)("shot '$shot' for $coord", ({ coord, shot }) => {
     const [row, col] = coord;
     expect(gameboard.board[row][col]).toBe(shot);
+  });
+});
+
+describe("allShipsSunk method", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0], "right");
+  gameboard.receiveAttack([0, 0]);
+
+  test("false for 1 hit on ship of length 2", () => {
+    expect(gameboard.allShipsSunk()).toBe(false);
+  });
+
+  test("true for 2 hits on ship of length 2", () => {
+    gameboard.receiveAttack([0, 1]);
+    expect(gameboard.allShipsSunk()).toBe(true);
   });
 });

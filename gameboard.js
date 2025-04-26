@@ -3,6 +3,7 @@ import { Ship } from "./ship.js";
 export class Gameboard {
   constructor() {
     this.board = this.#createBoard();
+    this.ships = [];
   }
 
   #createBoard() {
@@ -27,10 +28,12 @@ export class Gameboard {
 
   placeShip(ship, start, direction) {
     let [row, col] = start;
+
     for (let i = 0; i < ship.length; i++) {
       if (this.#outOfBounds(row, col)) {
         throw new Error("Ships placed out of bounds, 0-9 limit");
       }
+
       switch (direction) {
         case "up":
           this.board[row--][col] = ship;
@@ -46,6 +49,7 @@ export class Gameboard {
           break;
       }
     }
+    this.ships.push(ship);
   }
 
   receiveAttack(coord) {
@@ -56,5 +60,12 @@ export class Gameboard {
     } else {
       this.board[row][col] = null;
     }
+  }
+
+  allShipsSunk() {
+    for (const ship of this.ships) {
+      if (ship.isSunk() === false) return false;
+    }
+    return true;
   }
 }
