@@ -91,3 +91,7 @@ main {
   height: 50px;
   border: 1px solid black;
 }
+
+.ship {
+  background-color: #94f3ff;
+}
