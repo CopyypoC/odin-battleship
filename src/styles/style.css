@@ -97,6 +97,10 @@ main {
 }
 
 /* CPU Gameboard */
+.cpu-gameboard {
+  pointer-events: none;
+}
+
 .cpu-gameboard .col:hover {
   cursor: pointer;
   background-color: rgb(89, 123, 152);

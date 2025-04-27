@@ -1,16 +1,26 @@
 export function setupHandlers() {
   handleStart();
+  handleReset();
 }
 
+const startBtn = document.querySelector(".start-btn");
+const resetBtn = document.querySelector(".reset-btn");
 function handleStart() {
-  const startBtn = document.querySelector(".start-btn");
   const cpuGameboard = document.querySelector(".cpu-gameboard");
 
-  // pointer-events
-  // disabled property
   startBtn.addEventListener("click", () => {
-    console.log(1);
-    startBtn.style.pointerEvents = "none";
+    startBtn.disabled = true;
+    resetBtn.disabled = false;
     cpuGameboard.style.pointerEvents = "auto";
+  });
+}
+
+function handleReset() {
+  const cpuGameboard = document.querySelector(".cpu-gameboard");
+
+  resetBtn.addEventListener("click", () => {
+    resetBtn.disabled = true;
+    startBtn.disabled = false;
+    cpuGameboard.style.pointerEvents = "none";
   });
 }
