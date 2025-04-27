@@ -1,5 +1,5 @@
-import { Player } from "../player.js";
-import { Gameboard } from "../gameboard.js";
+import { Player } from "../src/scripts/player.js";
+import { Gameboard } from "../src/scripts/gameboard.js";
 
 describe("player init", () => {
   const player = new Player();

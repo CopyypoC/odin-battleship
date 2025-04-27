@@ -1,4 +1,4 @@
-import { Gameboard } from "../gameboard.js";
+import { Gameboard } from "../src/scripts/gameboard.js";
 
 describe("Gameboard creation", () => {
   test("Gameboard creates a 10x10 grid", () => {
@@ -48,7 +48,7 @@ describe("valid ship placements", () => {
   ];
 
   test.each(cases)(
-    "places ship length $length $direction from $start",
+    "places ship $direction from $start",
     ({ start, direction, endPos }) => {
       const gameboard = new Gameboard();
       const ships = gameboard.getShips();
@@ -58,7 +58,7 @@ describe("valid ship placements", () => {
       for (const [row, col] of endPos) {
         expect(gameboard.board[row][col]).toBe(ship);
       }
-    }
+    },
   );
 });
 
@@ -92,7 +92,7 @@ describe("invalid ship placements", () => {
       expect(() => {
         gameboard.placeShip(ship, start, direction);
       }).toThrow();
-    }
+    },
   );
 
   test("throw error for overlapping ships", () => {
