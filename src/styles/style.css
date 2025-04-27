@@ -95,3 +95,29 @@ main {
 .ship {
   background-color: #94f3ff;
 }
+
+/* Modal */
+dialog {
+  border: 0;
+  padding: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+dialog::backdrop {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.results-container {
+  border: 1px solid black;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
