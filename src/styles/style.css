@@ -96,6 +96,12 @@ main {
   background-color: #94f3ff;
 }
 
+/* CPU Gameboard */
+.cpu-gameboard .col:hover {
+  cursor: pointer;
+  background-color: rgb(89, 123, 152);
+}
+
 /* Modal */
 dialog {
   border: 0;

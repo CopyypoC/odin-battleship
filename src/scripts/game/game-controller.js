@@ -38,8 +38,3 @@ export class GameController {
     this.swapPlayer();
   }
 }
-
-const test = new GameController();
-test.placeShips();
-console.log(test.humanPlayer);
-console.log(test.cpuPlayer);
