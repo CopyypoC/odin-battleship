@@ -1,7 +1,0 @@
-import { Gameboard } from "./src/scripts/gameboard.js";
-
-export class Player {
-  constructor() {
-    this.gameboard = new Gameboard();
-  }
-}
