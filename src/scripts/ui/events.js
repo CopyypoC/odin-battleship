@@ -51,7 +51,7 @@ function handleAttack(gameController) {
       return;
     }
 
-    attackOnHuman(e, gameController);
+    attackOnHuman(gameController);
     if (gameController.resolveWinner()) {
       modalLoser.showModal();
       return;
@@ -75,4 +75,19 @@ function attackOnCpu(e, gameController) {
   cell.style.pointerEvents = "none";
 }
 
-function attackOnHuman(e, gameController) {}
+function attackOnHuman(gameController) {
+  const humanGameboard = document.querySelector(".human-gameboard");
+  const coord = gameController.getCpuAttack();
+  const [row, col] = coord;
+  const cell = humanGameboard.querySelector(
+    `[data-row="${row}"] [data-col="${col}"]`,
+  );
+
+  if (gameController.attackAndCheck(row, col)) {
+    cell.classList.add("hit");
+  } else {
+    cell.classList.add("miss");
+  }
+
+  cell.style.pointerEvents = "none";
+}

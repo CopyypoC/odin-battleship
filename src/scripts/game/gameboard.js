@@ -84,11 +84,7 @@ export class Gameboard {
 
   checkValidCell(coord) {
     const [row, col] = coord;
-    if (
-      this.board[row][col] instanceof Ship ||
-      this.board[row][col] === "hit" ||
-      this.board[row][col] === null
-    ) {
+    if (this.board[row][col] === "hit" || this.board[row][col] === null) {
       return false;
     } else {
       return true;
