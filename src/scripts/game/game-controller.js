@@ -7,6 +7,7 @@ export class GameController {
     this.humanGameboard = this.humanPlayer.gameboard;
     this.cpuGameboard = this.cpuPlayer.gameboard;
     this.currentTarget = this.cpuPlayer;
+    this.placeShips();
   }
 
   placeShips() {
@@ -56,12 +57,20 @@ export class GameController {
 
   resolveWinner() {
     if (this.currentTarget.gameboard.allShipsSunk()) {
-      this.humanPlayer = new Player();
-      this.cpuPlayer = new Player();
+      this.reset();
       return true;
     } else {
       this.swapTarget();
       return false;
     }
+  }
+
+  reset() {
+    this.humanPlayer = new Player();
+    this.cpuPlayer = new Player();
+    this.humanGameboard = this.humanPlayer.gameboard;
+    this.cpuGameboard = this.cpuPlayer.gameboard;
+    this.currentTarget = this.cpuPlayer;
+    this.placeShips();
   }
 }
