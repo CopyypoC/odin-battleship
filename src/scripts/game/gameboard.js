@@ -20,6 +20,11 @@ export class Gameboard {
     return board;
   }
 
+  clearBoard() {
+    this.board = null;
+    this.board = this.#createBoard();
+  }
+
   #createShips() {
     const arr = [];
     arr.push(new Ship(2));
@@ -54,20 +59,10 @@ export class Gameboard {
         throw new Error("Ships cannot overlap");
       }
 
-      switch (direction) {
-        case "up":
-          this.board[row--][col] = ship;
-          break;
-        case "down":
-          this.board[row++][col] = ship;
-          break;
-        case "left":
-          this.board[row][col--] = ship;
-          break;
-        case "right":
-          this.board[row][col++] = ship;
-          break;
-      }
+      if (direction === "up") this.board[row--][col] = ship;
+      if (direction === "down") this.board[row++][col] = ship;
+      if (direction === "left") this.board[row][col--] = ship;
+      if (direction === "right") this.board[row][col++] = ship;
     }
   }
 
