@@ -1,7 +1,9 @@
+import { displayShips } from "./dom.js";
+
 export function setupHandlers(gameController) {
-  handleStart();
-  handleReset();
   preventDrag();
+  handleStart();
+  handleReset(gameController);
   handleAttack(gameController);
 }
 
@@ -20,7 +22,8 @@ function handleStart() {
   });
 }
 
-function handleReset() {
+const gameboardContainer = document.querySelector(".gameboard-container");
+function handleReset(gameController) {
   const cpuGameboard = document.querySelector(".cpu-gameboard");
 
   resetBtn.addEventListener("click", () => {
@@ -28,6 +31,17 @@ function handleReset() {
     startBtn.disabled = false;
     randomizeBtn.disabled = false;
     cpuGameboard.style.pointerEvents = "none";
+    gameController.reset();
+
+    const allCells = gameboardContainer.getElementsByTagName("*");
+    for (const cell of allCells) {
+      cell.classList.remove("ship");
+      cell.classList.remove("hit");
+      cell.classList.remove("miss");
+      cell.style.pointerEvents = "";
+    }
+
+    displayShips(gameController.humanGameboard.board);
   });
 }
 
