@@ -6,6 +6,7 @@ export function setupHandlers(gameController) {
   handleReset(gameController);
   handleAttack(gameController);
   handleModals();
+  handleRandomize(gameController);
 }
 
 const startBtn = document.querySelector(".start-btn");
@@ -117,5 +118,17 @@ function handleModals() {
 
   loserBtn.addEventListener("click", () => {
     modalLoser.close();
+  });
+}
+
+function handleRandomize(gameController) {
+  randomizeBtn.addEventListener("click", () => {
+    const humanGameboard = document.querySelector(".human-gameboard");
+    const allCells = humanGameboard.getElementsByTagName("*");
+    for (const cell of allCells) {
+      cell.classList.remove("ship");
+    }
+    gameController.placeShips();
+    displayShips(gameController.humanGameboard.board);
   });
 }

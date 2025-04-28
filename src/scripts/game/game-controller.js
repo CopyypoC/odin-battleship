@@ -11,6 +11,7 @@ export class GameController {
   }
 
   placeShips() {
+    // Random placement for both cpu and human
     const cpuShips = this.cpuPlayer.gameboard.getShips();
     this.cpuGameboard.clearBoard();
     for (let i = 0; i < cpuShips.length; i++) {
@@ -29,9 +30,9 @@ export class GameController {
         }
       }
     }
-    console.log(this.cpuGameboard.board);
 
     const humanShips = this.humanPlayer.gameboard.getShips();
+    this.humanGameboard.clearBoard();
     for (let i = 0; i < humanShips.length; i++) {
       let invalidPlace = true;
       while (invalidPlace) {
