@@ -39,24 +39,40 @@ function preventDrag() {
   });
 }
 
+const modalWinner = document.querySelector(".modal-winner");
+const modalLoser = document.querySelector(".modal-loser");
 function handleAttack(gameController) {
   const cpuGameboard = document.querySelector(".cpu-gameboard");
 
   cpuGameboard.addEventListener("mousedown", (e) => {
-    const row = e.target.closest("[data-row]").dataset.row;
-    const col = e.target.dataset.col;
-    const cell = e.target;
-
-    if (!cell.dataset.col) return;
-
-    if (gameController.attackAndCheck(row, col)) {
-      // If ship, set hit styles
-      cell.classList.add("hit");
-    } else {
-      // If miss, set miss styles
-      cell.classList.add("miss");
+    attackOnCpu(e, gameController);
+    if (gameController.resolveWinner()) {
+      modalWinner.showModal();
+      return;
     }
-    cell.style.pointerEvents = "none";
-    // pointer-events none on that cell
+
+    attackOnHuman(e, gameController);
+    if (gameController.resolveWinner()) {
+      modalLoser.showModal();
+      return;
+    }
   });
 }
+
+function attackOnCpu(e, gameController) {
+  const row = e.target.closest("[data-row]").dataset.row;
+  const col = e.target.dataset.col;
+  const cell = e.target;
+
+  if (!cell.dataset.col) return;
+
+  if (gameController.attackAndCheck(row, col)) {
+    cell.classList.add("hit");
+  } else {
+    cell.classList.add("miss");
+  }
+
+  cell.style.pointerEvents = "none";
+}
+
+function attackOnHuman(e, gameController) {}

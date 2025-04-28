@@ -39,7 +39,17 @@ export class GameController {
   attackAndCheck(row, col) {
     this.currentPlayer.gameboard.receiveAttack([row, col]);
     const isHit = this.isHitAt(row, col);
-    this.swapPlayer();
     return isHit;
+  }
+
+  resolveWinner() {
+    if (this.currentPlayer.gameboard.allShipsSunk()) {
+      this.humanPlayer = new Player();
+      this.cpuPlayer = new Player();
+      return true;
+    } else {
+      this.swapPlayer();
+      return false;
+    }
   }
 }
