@@ -6,7 +6,7 @@ export class GameController {
     this.cpuPlayer = new Player();
     this.humanGameboard = this.humanPlayer.gameboard;
     this.cpuGameboard = this.cpuPlayer.gameboard;
-    this.currentPlayer = this.humanPlayer;
+    this.currentTarget = this.cpuPlayer;
   }
 
   placeShips() {
@@ -22,33 +22,45 @@ export class GameController {
     }
   }
 
-  swapPlayer() {
-    if (this.currentPlayer === this.humanPlayer) {
-      this.currentPlayer = this.cpuPlayer;
+  swapTarget() {
+    if (this.currentTarget === this.humanPlayer) {
+      this.currentTarget = this.cpuPlayer;
     } else {
-      this.currentPlayer = this.humanPlayer;
+      this.currentTarget = this.humanPlayer;
     }
   }
 
   isHitAt(row, col) {
-    return this.currentPlayer.gameboard.board[row][col] === "hit"
+    return this.currentTarget.gameboard.board[row][col] === "hit"
       ? true
       : false;
   }
 
   attackAndCheck(row, col) {
-    this.currentPlayer.gameboard.receiveAttack([row, col]);
+    this.currentTarget.gameboard.receiveAttack([row, col]);
     const isHit = this.isHitAt(row, col);
     return isHit;
   }
 
+  getCpuAttack() {
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+
+    while (!this.currentTarget.gameboard.checkValidCell([row, col])) {
+      row = Math.floor(Math.random() * 10);
+      col = Math.floor(Math.random() * 10);
+    }
+
+    return [row, col];
+  }
+
   resolveWinner() {
-    if (this.currentPlayer.gameboard.allShipsSunk()) {
+    if (this.currentTarget.gameboard.allShipsSunk()) {
       this.humanPlayer = new Player();
       this.cpuPlayer = new Player();
       return true;
     } else {
-      this.swapPlayer();
+      this.swapTarget();
       return false;
     }
   }
