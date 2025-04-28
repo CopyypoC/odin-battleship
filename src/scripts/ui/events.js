@@ -5,6 +5,7 @@ export function setupHandlers(gameController) {
   handleStart();
   handleReset(gameController);
   handleAttack(gameController);
+  handleModals();
 }
 
 const startBtn = document.querySelector(".start-btn");
@@ -104,4 +105,17 @@ function attackOnHuman(gameController) {
   }
 
   cell.style.pointerEvents = "none";
+}
+
+function handleModals() {
+  const winnerBtn = document.querySelector(".winner-btn");
+  const loserBtn = document.querySelector(".loser-btn");
+
+  winnerBtn.addEventListener("click", () => {
+    modalWinner.close();
+  });
+
+  loserBtn.addEventListener("click", () => {
+    modalLoser.close();
+  });
 }
