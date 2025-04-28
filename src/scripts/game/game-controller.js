@@ -30,11 +30,16 @@ export class GameController {
     }
   }
 
-  playRound(row, col) {
-    this.currentPlayer.receiveAttack([row, col]);
-    if (this.currentPlayer.allShipsSunk()) {
-      // some winning conditions
-    }
+  isHitAt(row, col) {
+    return this.currentPlayer.gameboard.board[row][col] === "hit"
+      ? true
+      : false;
+  }
+
+  attackAndCheck(row, col) {
+    this.currentPlayer.gameboard.receiveAttack([row, col]);
+    const isHit = this.isHitAt(row, col);
     this.swapPlayer();
+    return isHit;
   }
 }

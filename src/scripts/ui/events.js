@@ -1,6 +1,8 @@
-export function setupHandlers() {
+export function setupHandlers(gameController) {
   handleStart();
   handleReset();
+  preventDrag();
+  handleAttack(gameController);
 }
 
 const startBtn = document.querySelector(".start-btn");
@@ -26,5 +28,35 @@ function handleReset() {
     startBtn.disabled = false;
     randomizeBtn.disabled = false;
     cpuGameboard.style.pointerEvents = "none";
+  });
+}
+
+function preventDrag() {
+  const cpuGameboard = document.querySelector(".cpu-gameboard");
+
+  cpuGameboard.addEventListener("dragstart", (e) => {
+    e.preventDefault();
+  });
+}
+
+function handleAttack(gameController) {
+  const cpuGameboard = document.querySelector(".cpu-gameboard");
+
+  cpuGameboard.addEventListener("mousedown", (e) => {
+    const row = e.target.closest("[data-row]").dataset.row;
+    const col = e.target.dataset.col;
+    const cell = e.target;
+
+    if (!cell.dataset.col) return;
+
+    if (gameController.attackAndCheck(row, col)) {
+      // If ship, set hit styles
+      cell.classList.add("hit");
+    } else {
+      // If miss, set miss styles
+      cell.classList.add("miss");
+    }
+    cell.style.pointerEvents = "none";
+    // pointer-events none on that cell
   });
 }

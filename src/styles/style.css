@@ -96,6 +96,14 @@ main {
   background-color: #94f3ff;
 }
 
+.hit {
+  background-color: red;
+}
+
+.miss {
+  background-color: gray;
+}
+
 /* CPU Gameboard */
 .cpu-gameboard {
   pointer-events: none;

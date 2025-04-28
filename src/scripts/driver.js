@@ -9,7 +9,8 @@ displayBoard(humanBoard);
 displayBoard(cpuBoard, false);
 gameController.placeShips();
 displayShips(humanBoard);
-setupHandlers();
+setupHandlers(gameController);
+console.log(cpuBoard);
 // Make new gameController
 // Set up event listeners
 // Pass board to dom.js for initial rendering
