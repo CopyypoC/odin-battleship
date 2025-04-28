@@ -52,10 +52,12 @@ export class Gameboard {
 
     for (let i = 0; i < ship.length; i++) {
       if (this.#outOfBounds(row, col)) {
+        this.resetInvalidPlacement(row, col, direction, i);
         throw new Error("Ships placed out of bounds, 0-9 limit");
       }
 
       if (this.board[row][col] instanceof Ship) {
+        this.resetInvalidPlacement(row, col, direction, i);
         throw new Error("Ships cannot overlap");
       }
 
@@ -63,6 +65,16 @@ export class Gameboard {
       if (direction === "down") this.board[row++][col] = ship;
       if (direction === "left") this.board[row][col--] = ship;
       if (direction === "right") this.board[row][col++] = ship;
+    }
+  }
+
+  resetInvalidPlacement(row, col, direction, i) {
+    while (i > 0) {
+      if (direction === "up") this.board[++row][col] = 0;
+      if (direction === "down") this.board[--row][col] = 0;
+      if (direction === "left") this.board[row][++col] = 0;
+      if (direction === "right") this.board[row][--col] = 0;
+      i--;
     }
   }
 

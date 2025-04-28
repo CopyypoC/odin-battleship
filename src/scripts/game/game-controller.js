@@ -11,16 +11,50 @@ export class GameController {
   }
 
   placeShips() {
-    // Hardcode for now
     const cpuShips = this.cpuPlayer.gameboard.getShips();
+    this.cpuGameboard.clearBoard();
     for (let i = 0; i < cpuShips.length; i++) {
-      this.cpuGameboard.placeShip(cpuShips[i], [i, 0], "right");
+      let invalidPlace = true;
+      while (invalidPlace) {
+        try {
+          const row = Math.floor(Math.random() * 10);
+          const col = Math.floor(Math.random() * 10);
+          const direction = this.getRandomDirection();
+
+          this.cpuGameboard.placeShip(cpuShips[i], [row, col], direction);
+          invalidPlace = false;
+        } catch {
+          // Continue trying random numbers until a valid input
+          // No need to do anything with error
+        }
+      }
     }
+    console.log(this.cpuGameboard.board);
 
     const humanShips = this.humanPlayer.gameboard.getShips();
     for (let i = 0; i < humanShips.length; i++) {
-      this.humanGameboard.placeShip(humanShips[i], [i, 0], "right");
+      let invalidPlace = true;
+      while (invalidPlace) {
+        try {
+          const row = Math.floor(Math.random() * 10);
+          const col = Math.floor(Math.random() * 10);
+          const direction = this.getRandomDirection();
+
+          this.humanGameboard.placeShip(humanShips[i], [row, col], direction);
+          invalidPlace = false;
+        } catch {
+          // Same as above
+        }
+      }
     }
+  }
+
+  getRandomDirection() {
+    const directionNum = Math.floor(Math.random() * 4);
+    if (directionNum === 0) return "up";
+    if (directionNum === 1) return "down";
+    if (directionNum === 2) return "left";
+    if (directionNum === 3) return "right";
   }
 
   swapTarget() {
